@@ -1,0 +1,15 @@
+{
+  "module": 3,
+  "data_cutoff": "2026-05-28",
+  "belief_path": [
+    0.1,
+    0.2703,
+    0.7589,
+    0.9836,
+    0.9998
+  ],
+  "prior": 0.1,
+  "final_posterior": 0.9998,
+  "delta_U": 4.0,
+  "separating_condition": "c_S < ΔU < c_W"
+}

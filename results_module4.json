@@ -1,0 +1,28 @@
+{
+  "module": 4,
+  "data_cutoff": "2026-05-28",
+  "bertrand_primitives": {
+    "a": 12.0,
+    "g": 0.5,
+    "mc": 0.0
+  },
+  "bertrand_prices": {
+    "p_m": 12.0,
+    "p_star": 8.0,
+    "p_d": 9.0
+  },
+  "single_period_payoffs": {
+    "coop": 72.0,
+    "defect": 81.0,
+    "punish": 64.0,
+    "sucker": 54.0
+  },
+  "critical_delta": 0.5294,
+  "delta_base": 0.85,
+  "I_disruption": 0.3,
+  "lambda_ipo": 0.3,
+  "delta_effective": 0.4165,
+  "I_star_critical_disruption": 0.3772,
+  "cooperation_collapses": true,
+  "interpretation": "四个单期支付由差异化伯特兰定价博弈推导（满足 D>C>P>S）；颠覆侵蚀与 IPO 短视将有效贴现因子压低至临界值以下，默契高价协调难以维持；前沿档企稳回升而长尾持续下探，呈价格分层。"
+}

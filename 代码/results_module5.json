@@ -1,0 +1,18 @@
+{
+  "module": 5,
+  "data_cutoff": "2026-05-28",
+  "model": "dx/dt = x(1-x)[pi_O - pi_C]; pi_O=a-bx+reg, pi_C=g+dx",
+  "params": {
+    "alpha": 2.0,
+    "beta": 1.0,
+    "gamma": 1.0,
+    "delta": 0.5
+  },
+  "ess_by_scenario": {
+    "基线（无监管）": 0.6667,
+    "欧盟 AI Act": 0.3333,
+    "中国《AI+》行动": 0.8667,
+    "美国 EO/加州 SB53": 0.6
+  },
+  "interpretation": "监管作为环境参数平移开源相对收益：扶持型政策(reg>0)抬高开源 ESS，合规重负(reg<0)压低开源 ESS；唯一内部不动点即演化稳定策略。"
+}

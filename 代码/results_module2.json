@@ -1,0 +1,23 @@
+{
+  "module": 2,
+  "data_cutoff": "2026-05-28",
+  "ds_choice": {
+    "OO": "O",
+    "OC": "O",
+    "CO": "O",
+    "CC": "O"
+  },
+  "meta_choice": {
+    "O": "C",
+    "C": "O"
+  },
+  "openai_choice": "C",
+  "spe_path": "COO",
+  "spe_payoff": [
+    13.1,
+    6.47,
+    8.84
+  ],
+  "consistent_with_simultaneous_nash": true,
+  "interpretation": "逆向归纳 SPE = (C,O,O)，支付与同时博弈纳什均衡一致；支付与模块 1 同源。"
+}
