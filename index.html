@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>开源还是闭源 · 大模型公司战略博弈分析</title>
 <meta name="description" content="用博弈论分析大模型公司开源与闭源分化的翻页式交互演示。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#f2e9d8; --paper-2:#ede2cd; --card:#fbf6ec; --card-2:#f6efe0;
@@ -19,9 +16,9 @@
   --ind:#3d4eb0; --ind-bg:rgba(61,78,176,.12);
   --shadow:0 18px 44px -22px rgba(80,55,20,.42);
   --shadow-sm:0 8px 22px -14px rgba(80,55,20,.4);
-  --font-display:"Fraunces","Noto Serif SC",Georgia,serif;
-  --font-sans:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  --font-mono:"JetBrains Mono","Noto Sans SC",ui-monospace,monospace;
+  --font-display:"Source Han Serif SC","Noto Serif SC","Songti SC","STSong","SimSun",Georgia,serif;
+  --font-sans:"Source Han Sans SC","Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Segoe UI",sans-serif;
+  --font-mono:"JetBrains Mono","Cascadia Mono","SFMono-Regular","Consolas","Liberation Mono","Source Han Sans SC",ui-monospace,monospace;
   --ease:cubic-bezier(.22,.61,.36,1);
 }
 *{box-sizing:border-box}
@@ -308,6 +305,31 @@ table.eq tbody tr{background:var(--card)}
 .note{font-size:13.5px}
 .closing .ito{font-size:13.5px}
 
+/* provenance + resources */
+.source-box{margin-top:16px; background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-sm); overflow:hidden}
+.source-box summary{padding:14px 18px; cursor:pointer; list-style:none; font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--card-2)}
+.source-box summary::-webkit-details-marker{display:none}
+.source-box summary::after{content:"+"; color:var(--open); font-size:17px; line-height:1}
+.source-box[open] summary::after{content:"−"}
+.source-box .body{padding:14px 18px 16px}
+.source-list{display:grid; gap:10px}
+.source-item{padding:12px 13px; border:1px solid var(--line-soft); border-radius:10px; background:var(--card)}
+.source-item .meta{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:7px}
+.source-item .tag{display:inline-flex; align-items:center; border-radius:999px; background:var(--card-2); color:var(--ink-soft); font-family:var(--font-mono); font-size:10px; padding:2px 7px}
+.source-item .ttl{font-size:13px; font-weight:600; color:var(--ink)}
+.source-item .desc{margin:0; font-size:12.5px; color:var(--ink-soft); line-height:1.5}
+.source-item a{display:inline-block; margin-top:7px; font-family:var(--font-mono); font-size:11px; color:var(--closed); text-decoration:none; border-bottom:1px solid rgba(14,124,112,.28)}
+.lab-status{display:grid; gap:8px; margin:0 0 12px}
+.modeflag{display:inline-flex; width:max-content; align-items:center; gap:6px; padding:5px 10px; border-radius:999px; border:1px solid var(--line); font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em}
+.modeflag.base{background:var(--closed-bg); border-color:rgba(14,124,112,.35); color:var(--closed)}
+.modeflag.custom{background:var(--hot-bg); border-color:rgba(176,18,57,.35); color:var(--hot)}
+.modehint{margin:0; font-size:12px; color:var(--ink-faint); line-height:1.45}
+.resource-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-top:18px}
+.rescard{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:15px 16px; box-shadow:var(--shadow-sm)}
+.rescard .k{font-family:var(--font-mono); font-size:10px; letter-spacing:.05em; color:var(--ink-faint)}
+.rescard a{display:inline-block; margin-top:6px; color:var(--ink); text-decoration:none; font-weight:600}
+.rescard p{margin:8px 0 0; font-size:12.5px; color:var(--ink-soft); line-height:1.5}
+
 /* chrome */
 .topbar{position:fixed; top:0; left:0; right:0; height:3px; z-index:40; background:rgba(120,95,55,.12)}
 .topbar .fill{height:100%; background:linear-gradient(90deg,var(--open),var(--hot)); transition:width .4s var(--ease)}
@@ -338,8 +360,17 @@ table.eq tbody tr{background:var(--card)}
 .menu .mi{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; cursor:pointer; transition:.18s; box-shadow:var(--shadow-sm)}
 .menu .mi:hover{transform:translateY(-3px)} .menu .mi.on{border-color:var(--open); background:var(--open-bg)}
 .menu .mi .mn{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint)} .menu .mi .mt{font-family:var(--font-display); font-weight:600; font-size:16px; margin-top:6px; color:var(--ink)}
+.menu .mi .ms{margin-top:8px; font-family:var(--font-mono); font-size:10.5px; color:var(--ink-soft)}
+.menu .mi .mf{margin-top:4px; font-size:12px; color:var(--ink-faint); line-height:1.4}
 .menu .mtitle{max-width:1000px; margin:0 auto 22px; color:var(--paper); font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; display:flex; justify-content:space-between; align-items:center}
 .menu .mtitle button{background:var(--card); border:1px solid var(--line); color:var(--ink); border-radius:8px; padding:6px 12px; font-family:var(--font-mono); font-size:12px; cursor:pointer}
+.menu .mextras{max-width:1000px; margin:18px auto 0; display:grid; gap:14px}
+.menu .mblock{background:rgba(251,246,236,.92); border:1px solid rgba(221,205,178,.65); border-radius:14px; padding:15px 16px}
+.menu .mh{font-family:var(--font-mono); font-size:11px; letter-spacing:.05em; color:var(--ink-faint); margin-bottom:10px}
+.menu .mresources{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px}
+.menu .mresources a,.menu .mfigs a{display:block; color:var(--ink); text-decoration:none; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:11px 12px; box-shadow:var(--shadow-sm)}
+.menu .mresources a small,.menu .mfigs a small{display:block; margin-top:5px; color:var(--ink-faint); font-family:var(--font-mono); font-size:10px; line-height:1.4}
+.menu .mfigs{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px}
 
 /* roadmap */
 .roadmap{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:6px}
@@ -375,18 +406,18 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
 <div class="bg"></div><div class="bg-grain"></div><div class="bg-dots"></div>
 <div class="topbar"><div class="fill" id="topfill"></div></div>
 <div class="brandmark"><span class="g">⇄</span><span>开源 / 闭源 · 博弈论分析</span><span class="sec" id="secname"></span></div>
-<div class="topright"><button class="iconbtn" id="btn-menu" title="目录 (M)">☰</button><button class="iconbtn" id="btn-full" title="全屏 (F)">⤢</button></div>
+<div class="topright"><button class="iconbtn" id="btn-menu" type="button" title="目录 (M)" aria-label="打开目录">☰</button><button class="iconbtn" id="btn-full" type="button" title="全屏 (F)" aria-label="切换全屏">⤢</button></div>
 
-<div class="deck" id="deck">
+<div class="deck" id="deck" role="region" aria-label="答辩演示幻灯片">
 
   <!-- 1 COVER -->
   <section class="slide cover" data-name="封面">
     <div class="slide-inner">
-      <div class="mark build">博弈论课程论文展示 · 数据截至 2026 年 5 月</div>
+      <div class="mark build" id="cover-mark">博弈论课程论文展示 · 数据截至 2026 年 5 月</div>
       <h1 class="build"><span class="o">开源</span>，还是<span class="c">闭源</span>？</h1>
       <div class="deck-sub build">大模型公司战略选择的博弈论分析</div>
       <p class="intro build">OpenAI、Anthropic 坚持闭源，仅提供 API 而不公开模型权重；Meta、DeepSeek、阿里则公开权重。<b>这一分化是短期策略，还是稳定的均衡结构？</b>本文尝试用博弈论给出可推导、可检验的解释。</p>
-      <div class="eq-banner build"><span class="eq">(<span class="c">闭</span>, <span class="o">开</span>, <span class="o">开</span>)</span><span class="txt">OpenAI 闭源 · Meta 开源 · DeepSeek 开源</span><span class="pay">支付 (13.1, 6.5, 8.8)</span></div>
+      <div class="eq-banner build"><span class="eq" id="cover-profile">(<span class="c">闭</span>, <span class="o">开</span>, <span class="o">开</span>)</span><span class="txt" id="cover-profile-text">OpenAI 闭源 · Meta 开源 · DeepSeek 开源</span><span class="pay" id="cover-payoff">支付 (13.1, 6.5, 8.8)</span></div>
       <div class="foot build"><span><b>← →</b> 翻页</span><span><b>M</b> 目录</span><span><b>F</b> 全屏演示</span></div>
     </div>
   </section>
@@ -455,7 +486,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
     <div class="slide-inner">
       <p class="eyebrow build"><span class="n">03</span><span class="ln"></span>产业演进</p>
       <h2 class="s-title build">三年间的三次关键转折</h2>
-      <div class="tl build">
+      <div class="tl build" id="industry-timeline">
         <div class="tl-item"><div class="yr">2023<span class="ph">闭源主导</span></div>
           <div><h4>闭源模式确立</h4><p>OpenAI 以 GPT-4 确立「闭源 API + 高价」模式，输入价约每百万 token 30 美元，与 Anthropic、Google 共同维持高位的价格协调。同年 Meta 发布 Llama 2 开放权重，开源路线起步。</p></div></div>
         <div class="tl-item"><div class="yr">2024<span class="ph">开源逼近前沿</span></div>
@@ -471,13 +502,14 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
     <div class="slide-inner">
       <p class="eyebrow build"><span class="n">04</span><span class="ln"></span>关键数据</p>
       <h2 class="s-title build">刻画竞争强度的关键数据</h2>
-      <div class="stats build">
+      <div class="stats build" id="stats-grid">
         <div class="stat"><div class="big h" data-count="-589" data-prefix="$" data-suffix="B">$0B</div><div class="cap">英伟达 1 月 27 日单日蒸发的市值</div><div class="src">Bloomberg / CNBC</div></div>
         <div class="stat"><div class="big o" data-count="5.576" data-prefix="$" data-suffix="M" data-dec="3">$0M</div><div class="cap">DeepSeek-V3 披露的训练成本，约为 GPT-4 的 1/14</div><div class="src">arXiv:2412.19437</div></div>
         <div class="stat"><div class="big c" data-count="95.8" data-suffix="%" data-dec="1">0%</div><div class="cap">GPT-5 输入价相对 GPT-4 的降幅</div><div class="src">$30 → $1.25</div></div>
         <div class="stat"><div class="big" data-count="1.7" data-suffix="pp" data-dec="1">0pp</div><div class="cap">最强开源与最强闭源的能力差距</div><div class="src">已收敛至约 1.7 个百分点</div></div>
       </div>
       <p class="takeaway build">十八个月内，GPT-3.5 级模型的推理价格下降约 99.6%（即降至原先的约 1/280）；与此同时，最强开源与最强闭源的能力差距收敛至约一个百分点。<span class="pin">「价格崩塌、能力趋同」正是后续信号博弈、重复博弈与演化博弈所要解释的对象。</span></p>
+      <div class="source-box build" id="source-stats"></div>
     </div>
   </section>
 
@@ -489,7 +521,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
       <p class="s-lead build">若直接假设各方支付，便陷入循环论证。本文先构建将策略映射为效用的支付函数，再以真实产业数据将其实例化，使每一个支付值都可逐项追溯。</p>
       <div class="formula build" style="margin-top:18px">
         <div class="fx">U<sub>i</sub> = <span class="vc">R<sup>API</sup>·𝟙[闭源]</span> + <span class="v">α·E(n<sub>O</sub>)·𝟙[开源]</span> + V<sub>i</sub> − <span class="vh">κ·(c<sub>i</sub>/c<sub>ref</sub>)·m</span></div>
-        <p class="fx-note">某厂商的效用，等于 API 货币化收入（仅闭源时）、开源生态价值（仅开源时）与品牌价值之和，减去成本负担。其中仅训练成本取自真实数据：GPT-4 约 7800 万美元、Llama 3.1-405B 约 1.7 亿美元、DeepSeek-V3 约 558 万美元，三者之比约 <span class="mono">14 : 30 : 1</span>。</p>
+        <p class="fx-note" id="payoff-note">某厂商的效用，等于 API 货币化收入（仅闭源时）、开源生态价值（仅开源时）与品牌价值之和，减去成本负担。其中仅训练成本取自真实数据：GPT-4 约 7800 万美元、Llama 3.1-405B 约 1.7 亿美元、DeepSeek-V3 约 558 万美元，三者之比约 <span class="mono">14 : 30 : 1</span>。</p>
       </div>
       <div class="terms build">
         <div class="tcard"><div class="n tcol">① API 货币化收入</div><p class="b">仅闭源时为正，并除以闭源厂商数 n<sub>C</sub> 以刻画竞争稀释：闭源者越多，高端市场被分摊得越薄。</p></div>
@@ -511,7 +543,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
       </div>
       <div class="ptable build"><table class="pt">
         <thead><tr><th>厂商</th><th>训练成本 c（百万$）</th><th>成本比 c/c_ref</th><th>base</th><th>α 生态权重</th><th>V(开源)</th><th>V(闭源)</th></tr></thead>
-        <tbody>
+        <tbody id="param-table-body">
           <tr><td>OpenAI</td><td>78</td><td>13.99</td><td>12</td><td>0.5</td><td class="o">1.0</td><td class="c">2.5</td></tr>
           <tr><td>Meta</td><td>170</td><td>30.49</td><td>7</td><td>1.4</td><td class="o">2.0</td><td class="c">0.5</td></tr>
           <tr><td>DeepSeek</td><td>5.576</td><td>1.00</td><td>4</td><td>1.2</td><td class="o">3.5</td><td class="c">0.3</td></tr>
@@ -531,6 +563,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
         <div class="lab-bar"><div class="id"><span class="dotz"><i></i><i></i><i></i></span>静态博弈</div><div class="tt">支付由支付函数实时计算</div></div>
         <div class="lab-body">
           <div class="lab-ctrl">
+            <div class="lab-status"><div class="modeflag base" id="l1-mode"></div><p class="modehint" id="l1-modehint"></p></div>
             <p class="ctrl-h">三方策略</p>
             <div class="toggle"><div class="row2"><span class="nm">OpenAI<small>闭源·先动领先者</small></span></div><div class="seg" data-player="0"><button data-s="O">开源</button><button data-s="C">闭源</button></div></div>
             <div class="toggle"><div class="row2"><span class="nm">Meta<small>开源·生态型</small></span></div><div class="seg" data-player="1"><button data-s="O">开源</button><button data-s="C">闭源</button></div></div>
@@ -557,8 +590,8 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
       <p class="s-lead build tight">无需穷举：仅借助严格占优关系，三步消去全部劣势策略，即得唯一均衡。</p>
       <div class="steps build" style="margin-top:16px">
         <div class="l1step"><span class="n">第一步 · DeepSeek</span><br>无论 OpenAI 与 Meta 如何选择，DeepSeek 开源的支付始终更高——其闭源难获 API 收入，开源几乎不损失收入却能换取声誉与人才。<b>消去其闭源策略。</b><span class="res" id="l1-step1-res"></span></div>
-        <div class="l1step"><span class="n">第二步 · OpenAI</span><br>在 DeepSeek 必然开源的前提下，OpenAI 闭源严格占优：若其开源，将放弃独占高端 API 的溢价，支付由 13.1 降至 1.7。<b>消去其开源策略。</b></div>
-        <div class="l1step"><span class="n">第三步 · Meta</span><br>剩余局面下 Meta 选择开源（6.5 &gt; 1.0）：它既无 OpenAI 的先发客户，亦无 DeepSeek 的成本优势，正面竞争将两败俱伤。<b>三步后仅余 (闭, 开, 开)。</b></div>
+        <div class="l1step"><span class="n">第二步 · OpenAI</span><br>在 DeepSeek 必然开源的前提下，OpenAI 闭源严格占优：若其开源，将放弃独占高端 API 的溢价，支付由 <span id="l1-openai-closed">13.1</span> 降至 <span id="l1-openai-open">1.7</span>。<b>消去其开源策略。</b></div>
+        <div class="l1step"><span class="n">第三步 · Meta</span><br>剩余局面下 Meta 选择开源（<span id="l1-meta-open">6.5</span> &gt; <span id="l1-meta-closed">1.0</span>）：它既无 OpenAI 的先发客户，亦无 DeepSeek 的成本优势，正面竞争将两败俱伤。<b>三步后仅余 (闭, 开, 开)。</b></div>
       </div>
       <p class="ctrl-h build" style="margin-top:18px">均衡组合 (闭, 开, 开) 的支付构成</p>
       <div class="breakdown build" id="l1-breakdown"></div>
@@ -605,11 +638,12 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
         <div class="lab-bar"><div class="id"><span class="dotz"><i></i><i></i><i></i></span>演化博弈 · 复制动态</div><div class="tt">稳定性 d(π_O−π_C)/dx = −1.5 &lt; 0</div></div>
         <div class="lab-body">
           <div class="lab-ctrl">
+            <div class="lab-status"><div class="modeflag base" id="l3-mode"></div><p class="modehint" id="l3-modehint"></p></div>
             <p class="ctrl-h">监管情景</p>
             <div class="btnrow" id="l3-presets"><button class="btn on" data-reg="0">基线</button><button class="btn" data-reg="-0.5">欧盟</button><button class="btn" data-reg="0.3">中国</button><button class="btn" data-reg="-0.1">美国</button></div>
             <div class="slider" style="margin-top:15px"><div class="top"><span class="nm">监管强度 <b>reg</b></span><span class="val" id="l3-reg-v">+0.00</span></div><input type="range" id="l3-reg" min="-1" max="1" step="0.05" value="0"></div>
             <div class="slider c"><div class="top"><span class="nm">起点开源比例 <b>x₀</b></span><span class="val" id="l3-x0-v">0.50</span></div><input type="range" id="l3-x0" min="0.02" max="0.98" step="0.02" value="0.5"></div>
-            <div class="btnrow"><button class="btn primary" id="l3-play">▶ 播放演化</button><button class="btn" id="l3-all">叠加四辖区</button></div>
+            <div class="btnrow"><button class="btn primary" id="l3-play">▶ 播放演化</button><button class="btn" id="l3-all">叠加四辖区</button><button class="btn ghost" id="l3-reset">还原论文基线</button></div>
             <div class="readout" style="margin-top:16px"><div class="ro"><div class="k">稳态 x*</div><div class="v o" id="l3-ess">0.667</div></div><div class="ro"><div class="k">当前 x(t)</div><div class="v c" id="l3-xt">0.500</div></div></div>
             <div style="font-size:12px;color:var(--ink-faint);margin-top:8px;line-height:1.5" id="l3-realworld"></div>
           </div>
@@ -632,7 +666,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
       <p class="s-lead build">稳态 x* = (1+reg)/1.5 随监管方向平移。给定按各辖区标定的 reg，模型预测的开源比例与现实高度吻合——这正是它可被检验之处。</p>
       <div class="eqtable build" style="margin-top:16px"><table class="eq">
         <thead><tr><th>辖区</th><th>监管取向</th><th>reg</th><th>预测稳态 x*</th><th>现实对照</th></tr></thead>
-        <tbody>
+        <tbody id="evo-table-body">
           <tr><td>欧盟</td><td class="dim">GPAI 义务严管</td><td class="dim">−0.5</td><td><b>0.33</b></td><td>闭源主导，开源仅余长尾（Mistral 已商业化转向）</td></tr>
           <tr><td>美国</td><td class="dim">中性偏支持</td><td class="dim">−0.1</td><td><b>0.60</b></td><td>两阵营基本平分（OpenAI 闭源 ＋ Meta 开源 ＋ gpt-oss）</td></tr>
           <tr><td>基线</td><td class="dim">无监管</td><td class="dim">0.0</td><td><b>0.67</b></td><td>开源主导，闭源占据高端</td></tr>
@@ -640,6 +674,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
         </tbody>
       </table></div>
       <p class="takeaway build">稳定性可验证：d(π<sub>O</sub>−π<sub>C</sub>)/dx = −1.5 &lt; 0，<span class="pin">任何偏离都会被自动拉回 x*，因此这一比例是真正的演化稳定策略，而非偶然停留。</span></p>
+      <div class="source-box build" id="source-evolution"></div>
     </div>
   </section>
 
@@ -656,6 +691,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
         <div class="lab-bar"><div class="id"><span class="dotz"><i></i><i></i><i></i></span>贝叶斯更新与信号分离</div><div class="tt">后验 0.10 → ≈ 1.00</div></div>
         <div class="lab-body">
           <div class="lab-ctrl">
+            <div class="lab-status"><div class="modeflag base" id="l4-mode"></div><p class="modehint" id="l4-modehint"></p></div>
             <p class="ctrl-h">逐事件更新</p>
             <div class="readout"><div class="ro"><div class="k">P(低成本类型)</div><div class="v h" id="l4-post" style="font-size:31px">0.100</div></div></div>
             <div class="btnrow"><button class="btn primary" id="l4-next">下一个事件 →</button><button class="btn" id="l4-reset">重置</button></div>
@@ -679,13 +715,14 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
       <p class="eyebrow build"><span class="n">10</span><span class="ln"></span>模型四 · 现实印证</p>
       <h2 class="s-title build">信念被坐实后的价格演进</h2>
       <p class="s-lead build">当「低成本前沿可行」的信念被坐实，闭源旗舰的输入价一路走低——这正是信号失效、降价由「不可置信」转为占优的直接证据。</p>
-      <div class="ptl build" style="margin-top:16px">
+      <div class="ptl build" id="price-timeline-list" style="margin-top:16px">
         <div class="ptl-item"><span class="dt">2023.03</span><div><div class="nm">GPT-4 <small>闭源旗舰确立高价</small></div><div class="ptl-bar" style="width:100%"></div></div><span class="pr">$30 /M</span></div>
         <div class="ptl-item"><span class="dt">2023.11</span><div><div class="nm">GPT-4 Turbo</div><div class="ptl-bar" style="width:33%"></div></div><span class="pr">$10 /M</span></div>
         <div class="ptl-item"><span class="dt">2024.05</span><div><div class="nm">GPT-4o</div><div class="ptl-bar" style="width:17%"></div></div><span class="pr">$5 /M</span></div>
         <div class="ptl-item"><span class="dt">2025.08</span><div><div class="nm">GPT-5 <small>较 GPT-4 下降约 96%</small></div><div class="ptl-bar" style="width:4%"></div></div><span class="pr">$1.25 /M</span></div>
       </div>
       <p class="note build" style="margin-top:14px">同期 Anthropic Opus 输入价由约 $15 降至约 $5；商品化层更低，GPT-5 nano 约 $0.05、DeepSeek-V4 约 $0.28。降价并非单纯的竞争结果，而是「高价＝高质量」这一信号被可复现的开源击穿后的必然反应，并与下一模型的合谋破裂相互印证。</p>
+      <div class="source-box build" id="source-price"></div>
     </div>
   </section>
 
@@ -702,6 +739,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
         <div class="lab-bar"><div class="id"><span class="dotz"><i></i><i></i><i></i></span>重复博弈 · 冷酷触发</div><div class="tt">差异化伯特兰单期支付</div></div>
         <div class="lab-body">
           <div class="lab-ctrl">
+            <div class="lab-status"><div class="modeflag base" id="l5-mode"></div><p class="modehint" id="l5-modehint"></p></div>
             <p class="ctrl-h">① 伯特兰参数</p>
             <div class="slider"><div class="top"><span class="nm">市场容量 <b>a</b></span><span class="val" id="l5-a-v">12.0</span></div><input type="range" id="l5-a" min="8" max="16" step="0.5" value="12"></div>
             <div class="slider"><div class="top"><span class="nm">产品替代度 <b>g</b></span><span class="val" id="l5-g-v">0.50</span></div><input type="range" id="l5-g" min="0.1" max="0.8" step="0.05" value="0.5"></div>
@@ -786,45 +824,157 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
     <div class="slide-inner">
       <div class="big build">谢谢聆听</div>
       <div class="sub build">开源已成为不可逆转的力量；闭源前沿与开源生态将长期分层<span class="nowrap">并存。</span></div>
-      <div class="ito build"><b>关于数据与复现　</b>本演示所有产业数据均标注来源并经核实（DeepSeek-V3 技术报告 arXiv:2412.19437、Stanford AI Index 2025、Bloomberg / CNBC 2026.5.28 等）；各交互模型的计算均与论文配套代码逐一核对一致；方法论依据 Fudenberg &amp; Tirole、Spence、Maynard Smith 等经典文献。</div>
-      <div class="repo build">配套开源仓库 · <a href="https://github.com/M0onesy/OpenSource_Game_Analysis" target="_blank" rel="noopener">github.com/M0onesy/OpenSource_Game_Analysis</a></div>
+      <div class="ito build" id="closing-repro"><b>关于数据与复现　</b>本演示所有产业数据均标注来源并经核实（DeepSeek-V3 技术报告 arXiv:2412.19437、Stanford AI Index 2025、Bloomberg / CNBC 2026.5.28 等）；各交互模型的计算均与论文配套代码逐一核对一致；方法论依据 Fudenberg &amp; Tirole、Spence、Maynard Smith 等经典文献。</div>
+      <div class="resource-grid build" id="closing-resources"></div>
+      <div class="source-box build" id="closing-assets"></div>
+      <div class="source-box build" id="source-closing"></div>
     </div>
   </section>
 
 </div>
 
 <div class="navbar" id="navbar">
-  <button class="arw" id="nav-prev" title="上一页 (←)">‹</button>
+  <button class="arw" id="nav-prev" type="button" title="上一页 (←)" aria-label="上一页">‹</button>
   <div class="ctr"><b id="nav-cur">1</b><span class="sn"> / <span id="nav-tot">16</span> · </span><span class="sn" id="nav-sec"></span></div>
-  <button class="arw" id="nav-next" title="下一页 (→)">›</button>
+  <button class="arw" id="nav-next" type="button" title="下一页 (→)" aria-label="下一页">›</button>
 </div>
 <div class="dots" id="dots"></div>
 <div class="hint" id="hint">← → 翻页 · M 目录 · F 全屏</div>
-<div class="menu" id="menu"><div class="mtitle"><span>目录 · 点击跳转</span><button id="menu-close">关闭 ✕</button></div><div class="grid" id="menu-grid"></div></div>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-labelledby="menu-title"><div class="mtitle"><span id="menu-title">目录 · 点击跳转</span><button id="menu-close" type="button" aria-label="关闭目录">关闭 ✕</button></div><div class="grid" id="menu-grid"></div><div class="mextras" id="menu-resources"></div></div>
 
+<script src="./site-data.js"></script>
 <script>(function(){
 "use strict";
 const $=(s,r)=>(r||document).querySelector(s);
 const $$=(s,r)=>Array.from((r||document).querySelectorAll(s));
+const SITE=window.SITE_DATA||{};
+const META=SITE.meta||{};
+const SLIDE_META=Array.isArray(SITE.slides)?SITE.slides:[];
+const SOURCES=SITE.sources||{};
+const RESOURCES=SITE.resources||{};
+const M1=SITE.module1||{};
+const M2=SITE.module2||{};
+const M3=SITE.module3||{};
+const M4=SITE.module4||{};
+const M5=SITE.module5||{};
 const RM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 const COL={closed:'#0e7c70',open:'#bd560b',hot:'#b01239',ind:'#3d4eb0',
   text:'#2a2017',dim:'#5d5042',faint:'#8c7d6a',
   line:'rgba(120,95,55,.30)',grid:'rgba(120,95,55,.14)',
   card:'#fbf6ec',paper:'#f2e9d8',ghost:'#c7b793',
   closedFill:'rgba(14,124,112,.16)',hotFill:'rgba(176,18,57,.16)',hotBg:'rgba(176,18,57,.10)'};
+const clone=v=>v==null?v:JSON.parse(JSON.stringify(v));
+const scalarEq=(a,b,eps=1e-6)=>{
+  const na=Number(a),nb=Number(b);
+  if(Number.isFinite(na)&&Number.isFinite(nb))return Math.abs(na-nb)<=eps;
+  return String(a)===String(b);
+};
+const listEq=(a,b,eps=1e-6)=>Array.isArray(a)&&Array.isArray(b)&&a.length===b.length&&a.every((v,i)=>Array.isArray(v)?listEq(v,b[i],eps):scalarEq(v,b[i],eps));
+const objEq=(a,b,eps=1e-6)=>!!(a&&b)&&Object.keys(b).every(k=>Array.isArray(b[k])?listEq(a[k],b[k],eps):scalarEq(a[k],b[k],eps));
 const fmt=(x,d)=>Number(x).toFixed(d==null?2:d);
+const cell=x=>{const n=Number(x);return Number.isFinite(n)?n.toFixed(3).replace(/\.?0+$/,''):String(x??'');};
+const profileFrom=value=>Array.isArray(value)?value.slice():String(value||'COO').split('');
+const profileMarkup=pr=>`(${pr.map(s=>`<span class="${s==='C'?'c':'o'}">${s==='C'?'闭':'开'}</span>`).join(', ')})`;
+const linkAttrs=href=>/^https?:/i.test(href||'')?' target="_blank" rel="noopener"':'';
 function fit(cv,h){const dpr=Math.min(window.devicePixelRatio||1,2);
   const w=Math.max(10,cv.clientWidth||(cv.parentElement&&cv.parentElement.clientWidth)||300);
   cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);cv.style.height=h+'px';
   const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);return {ctx,w,h};}
 const REDRAW=[];let rzT;window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>REDRAW.forEach(f=>{try{f();}catch(e){}}),160);});
+function setModeState(flagId,hintId,isBase,baseText,customText){
+  const flag=$('#'+flagId),hint=$('#'+hintId);
+  if(!flag||!hint)return;
+  flag.className='modeflag '+(isBase?'base':'custom');
+  flag.textContent=isBase?'论文基线 / baseline':'自定义情景 / custom';
+  hint.textContent=isBase?baseText:customText;
+}
+function replaceSourceBox(id,title,items){
+  const host=$('#'+id);
+  if(!host)return;
+  if(!Array.isArray(items)||!items.length){host.remove();return;}
+  const cards=items.map(item=>`<div class="source-item"><div class="meta"><span class="tag">${item.type||item.kind||'来源'}</span><span class="ttl">${item.title||item.label||''}</span></div><p class="desc">${item.detail||item.desc||''}</p>${item.href?`<a href="${item.href}"${linkAttrs(item.href)}>打开来源</a>`:''}</div>`).join('');
+  host.outerHTML=`<details class="${host.className}" id="${id}"><summary>${title}</summary><div class="body"><div class="source-list">${cards}</div></div></details>`;
+}
+function renderResourceGrid(id,items){
+  const host=$('#'+id);
+  if(!host)return;
+  if(!Array.isArray(items)||!items.length){host.remove();return;}
+  host.innerHTML=items.map(item=>`<div class="rescard"><div class="k">${item.kind||item.type||'资源入口'}</div><a href="${item.href}"${linkAttrs(item.href)}>${item.label||item.title||item.href}</a>${item.desc||item.detail?`<p>${item.desc||item.detail}</p>`:''}</div>`).join('');
+}
+function renderMenuResources(){
+  const host=$('#menu-resources');
+  if(!host)return;
+  const docs=Array.isArray(RESOURCES.documents)?RESOURCES.documents:[];
+  const figs=Array.isArray(RESOURCES.figures)?RESOURCES.figures:[];
+  const results=Array.isArray(RESOURCES.results)?RESOURCES.results:[];
+  host.innerHTML=[
+    docs.length?`<div class="mblock"><div class="mh">资料入口</div><div class="mresources">${docs.map(item=>`<a href="${item.href}"${linkAttrs(item.href)}>${item.label||item.href}${item.desc||item.kind?`<small>${item.kind||''}${item.desc?` · ${item.desc}`:''}</small>`:''}</a>`).join('')}</div></div>`:'',
+    figs.length?`<div class="mblock"><div class="mh">静态图兜底</div><div class="mfigs">${figs.map(item=>`<a href="${item.href}"${linkAttrs(item.href)}>${item.label||item.href}<small>打印、低性能设备或关闭动画时可直接查看</small></a>`).join('')}</div></div>`:'',
+    results.length?`<div class="mblock"><div class="mh">结果 JSON</div><div class="mresources">${results.map(item=>`<a href="${item.href}"${linkAttrs(item.href)}>${item.label||item.href}<small>网站默认值与论文基线读取自这些结果文件</small></a>`).join('')}</div></div>`:''
+  ].join('');
+}
+function renderStaticData(){
+  const baseProfile=profileFrom(M1.defaultProfile||'COO');
+  const basePayoff=Array.isArray(M1.nashPayoff)?M1.nashPayoff:[13.1,6.47,8.84];
+  const baseDefaults=M1.defaults||{};
+  if($('#cover-mark')&&META.courseLabel)$('#cover-mark').textContent=[META.courseLabel,META.dataCutoffDisplay?`数据截至 ${META.dataCutoffDisplay}`:''].filter(Boolean).join(' · ');
+  if($('#cover-profile'))$('#cover-profile').innerHTML=profileMarkup(baseProfile);
+  if($('#cover-profile-text')&&M1.defaultProfileText)$('#cover-profile-text').textContent=M1.defaultProfileText;
+  if($('#cover-payoff'))$('#cover-payoff').textContent=`支付 (${basePayoff.map(v=>fmt(v,1)).join(', ')})`;
+  if($('#industry-timeline')&&Array.isArray(SITE.industryTimeline)&&SITE.industryTimeline.length){
+    $('#industry-timeline').innerHTML=SITE.industryTimeline.map(item=>`<div class="tl-item"><div class="yr">${item.year}<span class="ph">${item.phase||''}</span></div><div><h4>${item.title||''}</h4><p>${item.body||''}</p></div></div>`).join('');
+  }
+  if($('#stats-grid')&&Array.isArray(SITE.stats)&&SITE.stats.length){
+    const tones=['h','o','c',''];
+    $('#stats-grid').innerHTML=SITE.stats.map((item,i)=>`<div class="stat"><div class="big ${tones[i]||''}" data-count="${item.value}" data-prefix="${item.prefix||''}" data-suffix="${item.suffix||''}"${item.decimals!=null?` data-dec="${item.decimals}"`:''}>${item.prefix||''}0${item.suffix||''}</div><div class="cap">${item.cap||''}</div><div class="src">${item.src||''}</div></div>`).join('');
+  }
+  if($('#payoff-note')&&Array.isArray(baseDefaults.cost)&&baseDefaults.cost.length===3){
+    const ratio=(baseDefaults.costRatio||[]).slice(0,3).map(v=>Math.round(Number(v)||0)).join(' : ');
+    $('#payoff-note').innerHTML=`某厂商的效用，等于 API 货币化收入（仅闭源时）、开源生态价值（仅开源时）与品牌价值之和，减去成本负担。其中仅训练成本取自真实数据：GPT-4 约 ${cell(baseDefaults.cost[0])} 百万美元、Llama 3.1-405B 约 ${cell(baseDefaults.cost[1])} 百万美元、DeepSeek-V3 约 ${cell(baseDefaults.cost[2])} 百万美元，三者之比约 <span class="mono">${ratio}</span>。`;
+  }
+  if($('#param-table-body')&&Array.isArray(baseDefaults.base)&&baseDefaults.base.length===3){
+    const rows=['OpenAI','Meta','DeepSeek'].map((name,i)=>`<tr><td>${name}</td><td>${cell(baseDefaults.cost[i])}</td><td>${cell((baseDefaults.costRatio||[])[i])}</td><td>${cell(baseDefaults.base[i])}</td><td>${cell((baseDefaults.alpha||[])[i])}</td><td class="o">${cell((baseDefaults.Vo||[])[i])}</td><td class="c">${cell((baseDefaults.Vc||[])[i])}</td></tr>`);
+    $('#param-table-body').innerHTML=rows.join('');
+  }
+  if($('#evo-table-body')&&Array.isArray(M5.scenarios)&&M5.scenarios.length){
+    $('#evo-table-body').innerHTML=M5.scenarios.map(item=>`<tr><td>${item.name||''}</td><td class="dim">${item.policy||''}</td><td class="dim">${Number(item.reg)>=0?'+':''}${cell(item.reg)}</td><td><b>${fmt(item.ess,2)}</b></td><td>${item.reality||''}</td></tr>`).join('');
+  }
+  if($('#price-timeline-list')&&Array.isArray(M4.priceTimeline)&&M4.priceTimeline.length){
+    $('#price-timeline-list').innerHTML=M4.priceTimeline.map(item=>`<div class="ptl-item"><span class="dt">${item.dt||''}</span><div><div class="nm">${item.nm||''}${item.sub?` <small>${item.sub}</small>`:''}</div><div class="ptl-bar" style="width:${item.width||0}%"></div></div><span class="pr">${item.price||''}</span></div>`).join('');
+  }
+  if($('#closing-repro')){
+    const cutoff=META.dataCutoffDisplay||META.dataCutoff||'当前版本';
+    $('#closing-repro').innerHTML=`<b>关于数据与复现　</b>本演示中的事实数据统一截至 ${cutoff}；各交互实验的默认参数、基线结果与对照口径均与 <span class="mono">代码/results_module1-5.json</span> 同步。论文正文、数据来源、静态图表与结果文件可由下方直接打开。`;
+  }
+  renderResourceGrid('closing-resources',Array.isArray(RESOURCES.documents)?RESOURCES.documents:[]);
+  replaceSourceBox('source-stats','本页来源与口径',SOURCES.stats);
+  replaceSourceBox('source-evolution','本页来源与模型说明',SOURCES.evolution);
+  replaceSourceBox('source-price','本页来源与推论链路',SOURCES.price);
+  replaceSourceBox('source-closing','复现说明与基线口径',SOURCES.closing);
+  replaceSourceBox('closing-assets','静态图与结果文件',[
+    ...((Array.isArray(RESOURCES.figures)?RESOURCES.figures:[]).map(item=>({type:'静态图',title:item.label,detail:'答辩打印、低性能设备或关闭动画时的展示兜底。',href:item.href}))),
+    ...((Array.isArray(RESOURCES.results)?RESOURCES.results:[]).map(item=>({type:'结果 JSON',title:item.label,detail:'网站默认参数、关键结果与论文基线读取自这些文件。',href:item.href})))
+  ]);
+  renderMenuResources();
+  const labels={
+    'l3-phase':'演化博弈相位图',
+    'l3-traj':'演化博弈轨迹图',
+    'l3-pop':'演化博弈厂商种群示意',
+    'l4-belief':'信号博弈后验信念图',
+    'l4-spence':'信号博弈可行域图',
+    'l5-waterfall':'重复博弈有效贴现对比图'
+  };
+  Object.entries(labels).forEach(([id,label])=>{const el=$('#'+id);if(el){el.setAttribute('role','img');el.setAttribute('aria-label',label);}});
+}
+renderStaticData();
 
 /* LAB 1 */
-const L1D={base:[12,7,4],alpha:[0.5,1.4,1.2],Vo:[1.0,2.0,3.5],Vc:[2.5,0.5,0.3],cost:[78,170,5.576],E0:6,tau:1.5,kappa:0.1,mC:1.0,mO:0.6};
-let P1=JSON.parse(JSON.stringify(L1D));
+const L1D=clone(M1.defaults||{base:[12,7,4],alpha:[0.5,1.4,1.2],Vo:[1.0,2.0,3.5],Vc:[2.5,0.5,0.3],cost:[78,170,5.576],E0:6,tau:1.5,kappa:0.1,mC:1.0,mO:0.6});
+const L1_BASE_PROFILE=profileFrom(M1.defaultProfile||'COO');
+let P1=clone(L1D);
 const NAMES=['OpenAI','Meta','DeepSeek'];
 const PROFILES=[];['O','C'].forEach(a=>['O','C'].forEach(b=>['O','C'].forEach(c=>PROFILES.push([a,b,c]))));
-let prof=['C','O','O'];
+let prof=L1_BASE_PROFILE.slice();
 function pay(i,pr,P){const nC=pr.filter(s=>s==='C').length,nO=pr.filter(s=>s==='O').length;
   const E=Math.max(0,P.E0-P.tau*(nO-1)),cref=P.cost[2],self=pr[i];
   const api=self==='C'?P.base[i]/nC:0,eco=self==='O'?P.alpha[i]*E:0,V=self==='C'?P.Vc[i]:P.Vo[i];
@@ -863,6 +1013,13 @@ function renderL1(){
     tr.onclick=()=>{prof=pr.slice();renderL1();};tb.appendChild(tr);});}
   const res=$('#l1-step1-res');if(res)res.innerHTML=dsDominant(P1)?'当前参数下，DeepSeek 开源在全部四种对手组合中均严格占优。'
     :'<span style="color:var(--hot)">当前参数下 DeepSeek 开源已非严格占优，均衡可能随之改变（见上页 ★）。</span>';
+  const openaiClosed=pay(0,['C','O','O'],P1).total,openaiOpen=pay(0,['O','O','O'],P1).total;
+  const metaOpen=pay(1,['C','O','O'],P1).total,metaClosed=pay(1,['C','C','O'],P1).total;
+  if($('#l1-openai-closed'))$('#l1-openai-closed').textContent=fmt(openaiClosed,1);
+  if($('#l1-openai-open'))$('#l1-openai-open').textContent=fmt(openaiOpen,1);
+  if($('#l1-meta-open'))$('#l1-meta-open').textContent=fmt(metaOpen,1);
+  if($('#l1-meta-closed'))$('#l1-meta-closed').textContent=fmt(metaClosed,1);
+  setModeState('l1-mode','l1-modehint',objEq(P1,L1D)&&curKey===L1_BASE_PROFILE.join(''),'当前为论文基线情景，默认参数与基线均衡和结果文件一致。','当前为自定义情景，非论文基线；点击“还原默认值”可恢复。');
   renderBKfixed();
 }
 const L1SPEC=[{key:'base',idx:0,label:'OpenAI · API 强度 base',min:0,max:20,step:.5},
@@ -883,7 +1040,7 @@ function buildL1Sliders(){const wrap=$('#l1-sliders');if(!wrap)return;wrap.inner
     wrap.appendChild(d);});}
 $$('.seg[data-player]').forEach(seg=>{$$('button',seg).forEach(b=>{b.onclick=()=>{prof[+seg.dataset.player]=b.dataset.s;renderL1();};});});
 if($('#l1-nash'))$('#l1-nash').onclick=()=>{const NE=nashSet(P1);if(NE.length){prof=NE[0].split('');renderL1();}};
-if($('#l1-reset'))$('#l1-reset').onclick=()=>{P1=JSON.parse(JSON.stringify(L1D));buildL1Sliders();renderL1();};
+if($('#l1-reset'))$('#l1-reset').onclick=()=>{P1=clone(L1D);prof=L1_BASE_PROFILE.slice();buildL1Sliders();renderL1();};
 buildL1Sliders();renderL1();
 
 /* LAB 2 */
@@ -928,10 +1085,19 @@ renderL2();REDRAW.push(renderL2);
 /* LAB 3 */
 const E3={a:2,b:1,g:1,d:0.5};
 const piO=(x,r)=>E3.a-E3.b*x+r,piC=x=>E3.g+E3.d*x,xdot=(x,r)=>x*(1-x)*(piO(x,r)-piC(x)),ess=r=>Math.max(0,Math.min(1,(1+r)/1.5));
-let l3={reg:0,x0:.5,xt:.5,overlay:false,raf:0,_tt:0};
-const SCN=[{reg:0,name:'基线',col:COL.open},{reg:-0.5,name:'欧盟',col:COL.closed},{reg:0.3,name:'中国',col:COL.hot},{reg:-0.1,name:'美国',col:COL.ind}];
-const RW={'0':'基线：开源主导，闭源占据高端。','-0.5':'欧盟严管：闭源主导，开源仅余长尾。','0.3':'中国鼓励开源：DeepSeek / Qwen / GLM / Kimi 几乎全开源。','-0.1':'美国中性偏支持：两阵营基本平分。'};
-function nearRW(r){let best='0',bd=9;Object.keys(RW).forEach(k=>{const dd=Math.abs(parseFloat(k)-r);if(dd<bd){bd=dd;best=k;}});return RW[best];}
+const SCN=(Array.isArray(M5.scenarios)&&M5.scenarios.length?clone(M5.scenarios):[
+  {name:'欧盟',policy:'GPAI 义务严管',reg:-0.5,ess:0.3333,reality:'闭源主导，开源仅余长尾。',color:'closed'},
+  {name:'美国',policy:'中性偏支持',reg:-0.1,ess:0.60,reality:'两阵营基本平分。',color:'ind'},
+  {name:'基线',policy:'无监管',reg:0.0,ess:0.6667,reality:'开源主导，闭源占据高端。',color:'open'},
+  {name:'中国',policy:'鼓励开源',reg:0.3,ess:0.8667,reality:'DeepSeek / Qwen / GLM / Kimi 几乎全开源。',color:'hot'}
+]).map(item=>Object.assign({},item,{col:COL[item.color]||COL.open}));
+const L3_BASE={reg:0,x0:0.5};
+function nearScenario(r){let best=SCN[0]||null,dist=Infinity;SCN.forEach(item=>{const dd=Math.abs(Number(item.reg)-r);if(dd<dist){dist=dd;best=item;}});return best;}
+function nearRW(r){const item=nearScenario(r);return item&&item.reality?item.reality:'';}
+let l3={reg:L3_BASE.reg,x0:L3_BASE.x0,xt:L3_BASE.x0,overlay:false,raf:0,_tt:0};
+if($('#l3-presets')&&SCN.length){const buttons=SCN.slice().sort((a,b)=>scalarEq(a.reg,L3_BASE.reg)?-1:scalarEq(b.reg,L3_BASE.reg)?1:0);$('#l3-presets').innerHTML=buttons.map(item=>`<button class="btn${scalarEq(item.reg,L3_BASE.reg)?' on':''}" type="button" data-reg="${item.reg}">${item.name}</button>`).join('');}
+if($('#l3-reg'))$('#l3-reg').value=String(L3_BASE.reg);
+if($('#l3-x0'))$('#l3-x0').value=String(L3_BASE.x0);
 function drawPhase(){const cv=$('#l3-phase');if(!cv)return;const {ctx,w,h}=fit(cv,220);
   const pad={l:40,r:14,t:14,b:30},W=w-pad.l-pad.r,H=h-pad.t-pad.b;
   let mxv=0.001;for(let i=0;i<=100;i++)mxv=Math.max(mxv,Math.abs(xdot(i/100,l3.reg)));
@@ -965,7 +1131,8 @@ function drawPop(){const cv=$('#l3-pop');if(!cv)return;const {ctx,w,h}=fit(cv,78
   for(let i=0;i<N;i++){const cx=(i%cols+.5)*gx,cy=(Math.floor(i/cols)+.5)*gy,open=(i+0.5)/N<l3.xt;
     ctx.fillStyle=open?COL.open:COL.closed;ctx.globalAlpha=.9;ctx.beginPath();ctx.arc(cx,cy,r,0,7);ctx.fill();ctx.globalAlpha=1;}}
 function l3ro(){if($('#l3-ess'))$('#l3-ess').textContent=fmt(ess(l3.reg),3);if($('#l3-xt'))$('#l3-xt').textContent=fmt(l3.xt,3);
-  if($('#l3-reg-v'))$('#l3-reg-v').textContent=(l3.reg>=0?'+':'')+fmt(l3.reg,2);if($('#l3-x0-v'))$('#l3-x0-v').textContent=fmt(l3.x0,2);if($('#l3-realworld'))$('#l3-realworld').textContent=nearRW(l3.reg);}
+  if($('#l3-reg-v'))$('#l3-reg-v').textContent=(l3.reg>=0?'+':'')+fmt(l3.reg,2);if($('#l3-x0-v'))$('#l3-x0-v').textContent=fmt(l3.x0,2);if($('#l3-realworld'))$('#l3-realworld').textContent=nearRW(l3.reg);
+  setModeState('l3-mode','l3-modehint',scalarEq(l3.reg,L3_BASE.reg)&&scalarEq(l3.x0,L3_BASE.x0),'当前为论文基线情景，默认采用 reg=0、x₀=0.50。','当前为自定义情景，非论文基线；点击“还原论文基线”可恢复。');}
 function l3render(){l3ro();drawPhase();drawTraj();drawPop();}
 function l3animate(){cancelAnimationFrame(l3.raf);l3.xt=l3.x0;l3._tt=0;l3.overlay=false;if($('#l3-all'))$('#l3-all').classList.remove('on');
   const T=14,dur=2400,t0=performance.now();
@@ -977,16 +1144,20 @@ if($('#l3-x0'))$('#l3-x0').oninput=e=>{l3.x0=parseFloat(e.target.value);l3.xt=l3
 $$('#l3-presets .btn').forEach(b=>{b.onclick=()=>{l3.reg=parseFloat(b.dataset.reg);if($('#l3-reg'))$('#l3-reg').value=l3.reg;$$('#l3-presets .btn').forEach(x=>x.classList.toggle('on',x===b));l3.xt=l3.x0;l3._tt=0;l3render();};});
 if($('#l3-play'))$('#l3-play').onclick=l3animate;
 if($('#l3-all'))$('#l3-all').onclick=function(){l3.overlay=!l3.overlay;this.classList.toggle('on',l3.overlay);drawTraj();};
+if($('#l3-reset'))$('#l3-reset').onclick=()=>{cancelAnimationFrame(l3.raf);l3.reg=L3_BASE.reg;l3.x0=L3_BASE.x0;l3.xt=L3_BASE.x0;l3._tt=0;l3.overlay=false;if($('#l3-reg'))$('#l3-reg').value=String(L3_BASE.reg);if($('#l3-x0'))$('#l3-x0').value=String(L3_BASE.x0);if($('#l3-all'))$('#l3-all').classList.remove('on');$$('#l3-presets .btn').forEach(btn=>btn.classList.toggle('on',scalarEq(parseFloat(btn.dataset.reg),L3_BASE.reg)));l3render();};
 l3render();REDRAW.push(()=>{drawPhase();drawTraj();drawPop();});
 
 /* LAB 4 */
-const EVT=[{t:'2024-Q1',nm:'2024 年初先验',sub:'尚无证据',lS:null,lW:null},
+const EVT=(Array.isArray(M3.events)&&M3.events.length?clone(M3.events):[{t:'2024-Q1',nm:'2024 年初先验',sub:'尚无证据',lS:null,lW:null},
   {t:'2024-05',nm:'V2 论文 (MoE+MLA)',sub:'架构创新',lS:.50,lW:.15},
   {t:'2024-12',nm:'V3 + 技术报告',sub:'$5.576M · 可复现',lS:.85,lW:.10},
   {t:'2025-01',nm:'R1 / R1-Zero',sub:'强推理',lS:.95,lW:.05},
-  {t:'2025-02',nm:'全球复现 + 登顶',sub:'App Store 第一',lS:.99,lW:.01}];
-const CASES=[{nm:'DeepSeek V3',cS:1.5,cW:7.5},{nm:'Llama 3.1-405B',cS:1.0,cW:8.5},{nm:'Qwen3',cS:2.0,cW:9.0},{nm:'营销夸大的小模型',cS:0.6,cW:1.8},{nm:'无差异化跟随者',cS:6.0,cW:6.6}];
-let l4={prior:.10,shown:0,du:4};
+  {t:'2025-02',nm:'全球复现 + 登顶',sub:'App Store 第一',lS:.99,lW:.01}]);
+const CASES=Array.isArray(M3.cases)&&M3.cases.length?clone(M3.cases):[{nm:'DeepSeek V3',cS:1.5,cW:7.5},{nm:'Llama 3.1-405B',cS:1.0,cW:8.5},{nm:'Qwen3',cS:2.0,cW:9.0},{nm:'营销夸大的小模型',cS:0.6,cW:1.8},{nm:'无差异化跟随者',cS:6.0,cW:6.6}];
+const L4_BASE={prior:Number(M3.prior!=null?M3.prior:0.10),du:Number(M3.deltaU!=null?M3.deltaU:4)};
+let l4={prior:L4_BASE.prior,shown:0,du:L4_BASE.du};
+if($('#l4-prior'))$('#l4-prior').value=String(L4_BASE.prior);
+if($('#l4-du'))$('#l4-du').value=String(L4_BASE.du);
 function l4path(){const p=[l4.prior];let x=l4.prior;for(let i=1;i<=l4.shown;i++){const e=EVT[i];x=e.lS*x/(e.lS*x+e.lW*(1-x));p.push(x);}return p;}
 function regionOf(c){if(c.cW<l4.du)return 'ps';if(c.cS>l4.du)return 'pn';return 'sep';}
 function drawBelief(){const cv=$('#l4-belief');if(!cv)return;const {ctx,w,h}=fit(cv,210);
@@ -1021,15 +1192,18 @@ function renderCases(){const box=$('#l4-cases');if(!box)return;box.innerHTML='';
     d.innerHTML=`<span>${c.nm} <span style="color:var(--ink-faint)">(${c.cS}, ${c.cW})</span></span><span class="reg ${rg}">${lbl}</span>`;box.appendChild(d);});}
 function l4render(){if($('#l4-post'))$('#l4-post').textContent=l4path().slice(-1)[0].toFixed(l4.shown?4:3);
   if($('#l4-prior-v'))$('#l4-prior-v').textContent=fmt(l4.prior,2);if($('#l4-du-v'))$('#l4-du-v').textContent=fmt(l4.du,1);
+  setModeState('l4-mode','l4-modehint',scalarEq(l4.prior,L4_BASE.prior)&&scalarEq(l4.du,L4_BASE.du),'当前为论文基线情景，默认先验与分离收益取自论文基线。','当前为自定义情景，非论文基线；点击“重置”可恢复。');
   renderEvents();renderCases();drawBelief();drawSpence();}
 if($('#l4-next'))$('#l4-next').onclick=()=>{if(l4.shown<4){l4.shown++;l4render();}};
-if($('#l4-reset'))$('#l4-reset').onclick=()=>{l4.shown=0;l4render();};
+if($('#l4-reset'))$('#l4-reset').onclick=()=>{l4.prior=L4_BASE.prior;l4.du=L4_BASE.du;l4.shown=0;if($('#l4-prior'))$('#l4-prior').value=String(L4_BASE.prior);if($('#l4-du'))$('#l4-du').value=String(L4_BASE.du);l4render();};
 if($('#l4-prior'))$('#l4-prior').oninput=e=>{l4.prior=parseFloat(e.target.value);l4render();};
 if($('#l4-du'))$('#l4-du').oninput=e=>{l4.du=parseFloat(e.target.value);if($('#l4-du-v'))$('#l4-du-v').textContent=fmt(l4.du,1);drawSpence();renderCases();};
 l4render();REDRAW.push(()=>{drawBelief();drawSpence();});
 
 /* LAB 5 */
-let p5={a:12,g:.5,db:.85,I:.30,lam:.30};
+const P5D=clone(M4.defaults||{a:12,g:.5,db:.85,I:.30,lam:.30});
+let p5=clone(P5D);
+['a','g','db','I','lam'].forEach(k=>{if($('#l5-'+k))$('#l5-'+k).value=String(p5[k]);});
 function bert(a,g){const pm=a/(2*(1-g)),ps=a/(2-g),pd=(a+g*pm)/2;
   return {pm,ps,pd,C:pm*(a-pm+g*pm),P:ps*(a-ps+g*ps),D:pd*(a-pd+g*pm),S:pm*(a-pm+g*pd)};}
 function l5calc(){const b=bert(p5.a,p5.g),dstar=(b.D-b.C)/(b.D-b.P),deff=p5.db*(1-p5.I)*(1-p5.lam),istar=1-dstar/p5.db;
@@ -1058,9 +1232,10 @@ function l5render(){const c=l5calc();
     $('#l5-verdict-text').innerHTML=hold?`<b>高价默契可以维持。</b>有效贴现 δ_eff=${fmt(c.deff,3)} ≥ 临界 δ*=${fmt(c.dstar,3)}：双方足够重视未来收益，单方降价得不偿失。`
       :`<b>合谋无法维持。</b>有效贴现 δ_eff=${fmt(c.deff,3)} &lt; 临界 δ*=${fmt(c.dstar,3)}：单方降价变得有利，价格战随之爆发；颠覆强度一旦超过 I*=${fmt(c.istar,3)} 即告崩溃。`;}
   ['a','g','db','I','lam'].forEach(k=>{const el=$('#l5-'+k+'-v');if(el)el.textContent=fmt(p5[k],k==='a'?1:2);});
+  setModeState('l5-mode','l5-modehint',objEq(p5,P5D),'当前为论文基线情景，默认伯特兰参数与贴现因子来自论文基线。','当前为自定义情景，非论文基线；点击“还原默认值”可恢复。');
   drawWaterfall();}
 ['a','g','db','I','lam'].forEach(k=>{const inp=$('#l5-'+k);if(inp)inp.oninput=()=>{p5[k]=parseFloat(inp.value);l5render();l5rgReset();};});
-if($('#l5-reset'))$('#l5-reset').onclick=()=>{p5={a:12,g:.5,db:.85,I:.30,lam:.30};['a','g','db','I','lam'].forEach(k=>{if($('#l5-'+k))$('#l5-'+k).value=p5[k];});l5render();l5rgReset();};
+if($('#l5-reset'))$('#l5-reset').onclick=()=>{p5=clone(P5D);['a','g','db','I','lam'].forEach(k=>{if($('#l5-'+k))$('#l5-'+k).value=p5[k];});l5render();l5rgReset();};
 let rg={k:0,defected:false,you:0,coop:0,hist:[]};
 function l5rgReset(){rg={k:0,defected:false,you:0,coop:0,hist:[]};l5rgRender('');}
 function l5rgRender(msg){const box=$('#l5-rounds');if(!box)return;box.innerHTML='';
@@ -1078,15 +1253,25 @@ if($('#l5-rgreset'))$('#l5-rgreset').onclick=l5rgReset;
 l5render();l5rgReset();REDRAW.push(drawWaterfall);
 
 /* DECK CONTROLLER */
-const slides=$$('.slide'),N=slides.length;let cur=0;
-const names=slides.map(s=>s.dataset.name||'');
-const topfill=$('#topfill'),secname=$('#secname'),menu=$('#menu');
-const dotsWrap=$('#dots');if(dotsWrap)slides.forEach((s,i)=>{const b=document.createElement('button');b.innerHTML=`<span class="tip">${i+1}. ${names[i]}</span>`;b.onclick=()=>go(i);dotsWrap.appendChild(b);});
-const menuGrid=$('#menu-grid');if(menuGrid)slides.forEach((s,i)=>{const d=document.createElement('div');d.className='mi';d.innerHTML=`<div class="mn">${String(i+1).padStart(2,'0')}</div><div class="mt">${names[i]}</div>`;d.onclick=()=>{go(i);closeMenu();};menuGrid.appendChild(d);});
-function openMenu(){if(!menu)return;menu.classList.add('open');$$('.mi',menuGrid).forEach((m,i)=>m.classList.toggle('on',i===cur));}
-function closeMenu(){if(menu)menu.classList.remove('open');}
+const slides=$$('.slide'),N=slides.length;
+const slideInfo=slides.map((slide,i)=>Object.assign({id:slide.id||`slide-${i+1}`,name:slide.dataset.name||''},SLIDE_META[i]||{}));
+slideInfo.forEach((info,i)=>{if(info.id)slides[i].id=info.id;if(info.name)slides[i].dataset.name=info.name;});
+let cur=0,menuReturnFocus=null;
+const names=slideInfo.map(info=>info.name||'');
+const topfill=$('#topfill'),secname=$('#secname'),menu=$('#menu'),menuGrid=$('#menu-grid'),menuClose=$('#menu-close');
+const dotsWrap=$('#dots');
+if(menu)menu.setAttribute('aria-hidden','true');
+if(dotsWrap){
+  dotsWrap.setAttribute('aria-label','页面导航');
+  slides.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-label',`跳转到第 ${i+1} 页：${names[i]}`);b.innerHTML=`<span class="tip">${i+1}. ${names[i]}</span>`;b.onclick=()=>go(i);dotsWrap.appendChild(b);});
+}
+if(menuGrid)slides.forEach((s,i)=>{const meta=slideInfo[i]||{},jump=()=>{go(i);closeMenu();};const d=document.createElement('div');d.className='mi';d.tabIndex=0;d.setAttribute('role','button');d.setAttribute('aria-label',`跳转到第 ${i+1} 页：${names[i]}`);d.innerHTML=`<div class="mn">${String(i+1).padStart(2,'0')}</div><div class="mt">${names[i]}</div>${meta.paperSection||meta.figure?`<div class="ms">${[meta.paperSection,meta.figure].filter(Boolean).join(' · ')}</div>`:''}${meta.model?`<div class="mf">${meta.model}</div>`:''}`;d.onclick=jump;d.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();jump();}};menuGrid.appendChild(d);});
+function hashIndex(){const raw=decodeURIComponent((location.hash||'').replace(/^#/,'').trim());if(!raw)return-1;return slideInfo.findIndex(info=>info.id===raw);}
+function syncHash(i){const id=slideInfo[i]&&slideInfo[i].id;if(!id)return;const hash='#'+encodeURIComponent(id);if(location.hash!==hash)history.replaceState(null,'',hash);}
+function openMenu(){if(!menu)return;menuReturnFocus=document.activeElement;menu.classList.add('open');menu.setAttribute('aria-hidden','false');$$('.mi',menuGrid).forEach((m,i)=>m.classList.toggle('on',i===cur));if(menuClose)menuClose.focus();}
+function closeMenu(){if(!menu)return;menu.classList.remove('open');menu.setAttribute('aria-hidden','true');if(menuReturnFocus&&typeof menuReturnFocus.focus==='function')menuReturnFocus.focus();menuReturnFocus=null;}
 function toggleMenu(){if(menu&&menu.classList.contains('open'))closeMenu();else openMenu();}
-if($('#btn-menu'))$('#btn-menu').onclick=toggleMenu;if($('#menu-close'))$('#menu-close').onclick=closeMenu;
+if($('#btn-menu'))$('#btn-menu').onclick=toggleMenu;if(menuClose)menuClose.onclick=closeMenu;
 if(menu)menu.addEventListener('click',e=>{if(e.target===menu)closeMenu();});
 let cuDone=false;
 function doCountUp(){if(cuDone)return;cuDone=true;$$('[data-count]').forEach(el=>{
@@ -1098,13 +1283,14 @@ function updateChrome(){if(topfill)topfill.style.width=(N>1?cur/(N-1)*100:0)+'%'
   const a=$('#nav-cur');if(a)a.textContent=cur+1;const b=$('#nav-tot');if(b)b.textContent=N;
   const c=$('#nav-sec');if(c)c.textContent=names[cur];if(secname)secname.textContent=names[cur];
   if($('#nav-prev'))$('#nav-prev').disabled=cur===0;if($('#nav-next'))$('#nav-next').disabled=cur===N-1;
-  $$('#dots button').forEach((d,i)=>d.classList.toggle('on',i===cur));}
-function onShow(i){REDRAW.forEach(f=>{try{f();}catch(e){}});const nm=names[i];
-  if(nm==='数字')doCountUp();
-  if(nm==='演化博弈')setTimeout(()=>{if(names[cur]==='演化博弈')l3animate();},380);}
-function go(i){i=Math.max(0,Math.min(N-1,i));cur=i;
+  $$('#dots button').forEach((d,i)=>d.classList.toggle('on',i===cur));
+  $$('.mi',menuGrid).forEach((m,i)=>m.classList.toggle('on',i===cur));}
+function onShow(i){REDRAW.forEach(f=>{try{f();}catch(e){}});const id=(slideInfo[i]&&slideInfo[i].id)||'';
+  if(id==='stats')doCountUp();
+  if(id==='evolutionary-game')setTimeout(()=>{if((slideInfo[cur]&&slideInfo[cur].id)==='evolutionary-game')l3animate();},380);}
+function go(i,opts){opts=Object.assign({updateHash:true},opts);i=Math.max(0,Math.min(N-1,i));cur=i;
   slides.forEach((s,k)=>{s.classList.toggle('active',k===cur);s.classList.toggle('past',k<cur);s.setAttribute('aria-hidden',k===cur?'false':'true');});
-  if(slides[cur])slides[cur].scrollTop=0;updateChrome();onShow(cur);}
+  if(slides[cur])slides[cur].scrollTop=0;if(opts.updateHash)syncHash(cur);updateChrome();onShow(cur);}
 function next(){go(cur+1);}function prev(){go(cur-1);}
 if($('#nav-next'))$('#nav-next').onclick=next;if($('#nav-prev'))$('#nav-prev').onclick=prev;
 function toggleFull(){const d=document.documentElement;if(!document.fullscreenElement&&!document.webkitFullscreenElement){(d.requestFullscreen||d.webkitRequestFullscreen||function(){}).call(d);}else{(document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document);}}
@@ -1116,12 +1302,14 @@ window.addEventListener('keydown',e=>{
   else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
   else if(e.key==='Home'){e.preventDefault();go(0);}else if(e.key==='End'){e.preventDefault();go(N-1);}
   else if(e.key==='f'||e.key==='F'){toggleFull();}else if(e.key==='m'||e.key==='M'){toggleMenu();}});
+window.addEventListener('hashchange',()=>{const i=hashIndex();if(i>=0&&i!==cur)go(i,{updateHash:false});});
 let tx=0,ty=0,tt=0;const deck=$('#deck');
 if(deck){deck.addEventListener('touchstart',e=>{const t=e.changedTouches[0];tx=t.clientX;ty=t.clientY;tt=Date.now();},{passive:true});
   deck.addEventListener('touchend',e=>{const t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty;
     if(Date.now()-tt<600&&Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.6){if(dx<0)next();else prev();}},{passive:true});}
 const hint=$('#hint');if(hint){setTimeout(()=>hint.classList.add('show'),900);setTimeout(()=>hint.classList.remove('show'),5400);}
-go(0);
+const initialHash=hashIndex();
+go(initialHash>=0?initialHash:0,{updateHash:initialHash<0});
 })();
 </script>
 </body>
