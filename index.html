@@ -61,6 +61,8 @@ h1,h2,h3,h4{font-family:var(--font-display); font-weight:600; line-height:1.12; 
 .eyebrow .n{color:var(--open); font-weight:700} .eyebrow .ln{width:28px; height:1px; background:var(--line-2)}
 .s-title{font-size:clamp(26px,4.3vw,42px); max-width:min(22em,100%); font-weight:600; text-wrap:balance;}
 .s-lead{font-family:var(--font-display); font-weight:400; font-size:clamp(16px,2.1vw,21px); color:var(--ink-soft); max-width:60ch; margin:16px 0 0; line-height:1.5; text-wrap:pretty;}
+.s-lead.tight{font-size:clamp(16px,2vw,19px);}
+.nowrap{white-space:nowrap;}
 p{margin:0 0 1em} strong{font-weight:700; color:var(--ink)} .mono{font-family:var(--font-mono)}
 .tcol{color:var(--closed)} .ocol{color:var(--open)} .hcol{color:var(--hot)}
 
@@ -286,7 +288,7 @@ table.eq tbody tr{background:var(--card)}
 
 .closing{text-align:center} .closing .slide-inner{max-width:780px}
 .closing .big{font-family:var(--font-display); font-weight:900; font-size:clamp(40px,8vw,84px); letter-spacing:-.02em}
-.closing .sub{font-family:var(--font-display); font-size:clamp(17px,2.2vw,22px); color:var(--ink-soft); margin-top:18px}
+.closing .sub{font-family:var(--font-display); font-size:clamp(17px,2.2vw,22px); color:var(--ink-soft); margin-top:18px; text-wrap:pretty}
 .closing .ito{margin-top:28px; padding:20px 24px; background:var(--card); border:1px solid var(--line); border-radius:14px; font-size:12.5px; color:var(--ink-soft); text-align:left; box-shadow:var(--shadow-sm); line-height:1.55}
 .closing .ito b{color:var(--ink)}
 .closing .repo{font-family:var(--font-mono); font-size:12px; color:var(--closed); margin-top:18px}
@@ -510,7 +512,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
     <div class="slide-inner">
       <p class="eyebrow build"><span class="n">06</span><span class="ln"></span>模型一 · 静态博弈</p>
       <h2 class="s-title build">同时决策下的纳什均衡</h2>
-      <p class="s-lead build" style="font-size:clamp(15px,1.8vw,17px)">三方同时在开源与闭源间选择，下列支付均由上述公式实时计算。可切换策略观察最优反应，或调整参数检验均衡的稳健性。</p>
+      <p class="s-lead build tight">三方同时在开源与闭源间选择，下列支付均由上述公式实时计算。可切换策略观察最优反应，或调整参数检验均衡的稳健性。</p>
       <div class="lab build" style="margin-top:16px">
         <div class="lab-bar"><div class="id"><span class="dotz"><i></i><i></i><i></i></span>静态博弈</div><div class="tt">支付由支付函数实时计算</div></div>
         <div class="lab-body">
@@ -538,7 +540,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
     <div class="slide-inner">
       <p class="eyebrow build"><span class="n">07</span><span class="ln"></span>均衡的唯一性</p>
       <h2 class="s-title build">三步占优锁定唯一均衡</h2>
-      <p class="s-lead build" style="font-size:clamp(15px,1.8vw,17px)">无需穷举：仅借助严格占优关系，三步消去全部劣势策略，即得唯一均衡。</p>
+      <p class="s-lead build tight">无需穷举：仅借助严格占优关系，三步消去全部劣势策略，即得唯一均衡。</p>
       <div class="steps build" style="margin-top:16px">
         <div class="l1step"><span class="n">第一步 · DeepSeek</span><br>无论 OpenAI 与 Meta 如何选择，DeepSeek 开源的支付始终更高——其闭源难获 API 收入，开源几乎不损失收入却能换取声誉与人才。<b>消去其闭源策略。</b><span class="res" id="l1-step1-res"></span></div>
         <div class="l1step"><span class="n">第二步 · OpenAI</span><br>在 DeepSeek 必然开源的前提下，OpenAI 闭源严格占优：若其开源，将放弃独占高端 API 的溢价，支付由 13.1 降至 1.7。<b>消去其开源策略。</b></div>
@@ -555,7 +557,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
     <div class="slide-inner">
       <p class="eyebrow build"><span class="n">08</span><span class="ln"></span>模型二 · 序贯博弈</p>
       <h2 class="s-title build">序贯博弈与子博弈完美均衡</h2>
-      <p class="s-lead build" style="font-size:clamp(15px,1.8vw,17px)">现实中 OpenAI 先行、其余厂商跟进。将同一支付结构置于三阶段博弈树，以逆向归纳求解子博弈完美均衡。</p>
+      <p class="s-lead build tight">现实中 OpenAI 先行、其余厂商跟进。将同一支付结构置于三阶段博弈树，以逆向归纳求解子博弈完美均衡。</p>
       <div class="lab build" style="margin-top:14px">
         <div class="lab-bar"><div class="id"><span class="dotz"><i></i><i></i><i></i></span>序贯博弈 · 逆向归纳</div><div class="tt">支付沿用模型一</div></div>
         <div class="lab-body wide">
@@ -581,7 +583,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
     <div class="slide-inner">
       <p class="eyebrow build"><span class="n">09</span><span class="ln"></span>模型三 · 演化博弈</p>
       <h2 class="s-title build">引入监管者的演化稳定策略</h2>
-      <p class="s-lead build" style="font-size:clamp(15px,1.8vw,17px)">放宽完全理性假设，仅以「当前收益更高的策略其采用比例上升」刻画群体演化。调整监管强度，观察开源比例稳态的移动。</p>
+      <p class="s-lead build tight">放宽完全理性假设，仅以「当前收益更高的策略其采用比例上升」刻画群体演化。调整监管强度，观察开源比例稳态的移动。</p>
       <div class="formula mini build" style="margin-top:14px">
         <div class="fx"><div class="frac"><span class="nu">dx</span><span class="de">dt</span></div> = x(1−x)[ <span class="v">π<sub>O</sub></span> − <span class="vc">π<sub>C</sub></span> ]<span class="sep">，其中</span><span class="v">π<sub>O</sub>=2−x+reg</span>，<span class="vc">π<sub>C</sub>=1+0.5x</span><span class="sep">⟹</span>稳态 x* = <div class="frac"><span class="nu">1+reg</span><span class="de">1.5</span></div></div>
       </div>
@@ -632,7 +634,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
     <div class="slide-inner">
       <p class="eyebrow build"><span class="n">10</span><span class="ln"></span>模型四 · 信号博弈</p>
       <h2 class="s-title build">信号博弈与信念更新</h2>
-      <p class="s-lead build" style="font-size:clamp(15px,1.8vw,17px)">DeepSeek 的「低成本类型」初为私有信息；公开技术报告等价于发出伪造代价极高的信号。逐事件观察市场后验信念的变化。</p>
+      <p class="s-lead build tight">DeepSeek 的「低成本类型」初为私有信息；公开技术报告等价于发出伪造代价极高的信号。逐事件观察市场后验信念的变化。</p>
       <div class="formula mini build" style="margin-top:14px">
         <div class="fx">贝叶斯更新： P′ = <div class="frac"><span class="nu">l<sub>S</sub>·P</span><span class="de">l<sub>S</sub>·P + l<sub>W</sub>·(1−P)</span></div><span class="sep">·</span>Spence 分离条件： <span class="vc">c<sub>S</sub></span> &lt; <span class="vh">ΔU</span> &lt; <span class="v">c<sub>W</sub></span></div>
       </div>
@@ -678,7 +680,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
     <div class="slide-inner">
       <p class="eyebrow build"><span class="n">11</span><span class="ln"></span>模型五 · 重复博弈</p>
       <h2 class="s-title build">重复博弈与合谋的可持续性</h2>
-      <p class="s-lead build" style="font-size:clamp(15px,1.8vw,17px)">两家闭源巨头能否维持高价默契？先以差异化伯特兰模型推导单期支付，再以冷酷触发策略判定合作的可持续条件。</p>
+      <p class="s-lead build tight">两家闭源巨头能否维持高价默契？先以差异化伯特兰模型推导单期支付，再以冷酷触发策略判定合作的可持续条件。</p>
       <div class="formula mini build" style="margin-top:14px">
         <div class="fx">临界贴现 <span class="vh">δ*</span> = <div class="frac"><span class="nu">D − C</span><span class="de">D − P</span></div><span class="sep">·</span>有效贴现 <span class="vc">δ<sub>eff</sub></span> = δ<sub>base</sub>·(1−<span class="vh">I</span>)·(1−λ)<span class="sep">·</span>合作可持续 ⟺ δ<sub>eff</sub> ≥ δ*</div>
       </div>
@@ -769,7 +771,7 @@ table.pt tbody tr{background:var(--card)} table.pt .o{color:var(--open)} table.p
   <section class="slide closing" data-name="结束">
     <div class="slide-inner">
       <div class="big build">谢谢聆听</div>
-      <div class="sub build">开源已成为不可逆转的力量；闭源前沿与开源生态将长期分层并存。</div>
+      <div class="sub build">开源已成为不可逆转的力量；闭源前沿与开源生态将长期分层<span class="nowrap">并存。</span></div>
       <div class="ito build"><b>关于数据与复现　</b>本演示所有产业数据均标注来源并经核实（DeepSeek-V3 技术报告 arXiv:2412.19437、Stanford AI Index 2025、Bloomberg / CNBC 2026.5.28 等）；各交互模型的计算均与论文配套代码逐一核对一致；方法论依据 Fudenberg &amp; Tirole、Spence、Maynard Smith 等经典文献。</div>
       <div class="repo build">配套开源仓库 · <a href="https://github.com/M0onesy/OpenSource_Game_Analysis" target="_blank" rel="noopener">github.com/M0onesy/OpenSource_Game_Analysis</a></div>
     </div>
